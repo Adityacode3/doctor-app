@@ -1,255 +1,160 @@
-# 🏥 Doctor Appointment Booking App
+🏥 Doctor Appointment Booking System
 
-A beginner-friendly MERN Stack project with AI-powered symptom analysis.
+A full-stack web application built with the MERN Stack that allows patients to book doctor appointments based on AI-powered symptom analysis.
+Live - https://doctor-app-self.vercel.app/login
 
----
+👨‍💻 Project Overview
+This project is a Doctor Appointment Booking Web Application where a patient can:
 
-## 📁 Project Structure
+Register and log in securely
+Describe their symptoms
+Get an AI-based specialist recommendation
+Browse available doctors of that specialty
+Book an appointment by selecting a day and time
+View or cancel their past appointments
 
-```
+The goal was to build a clean, working, full-stack application using industry-standard tools while keeping the code simple and easy to understand.
+
+🛠 Tech Stack
+LayerTechnologyWhy We Used ItFrontendReact.js (Vite)Fast, component-based UI developmentRoutingReact Router DOM v6Multi-page navigation inside a single-page appHTTP RequestsAxiosClean API calls with automatic token attachmentBackendNode.js + Express.jsLightweight and fast REST API serverDatabaseMongoDB + MongooseFlexible NoSQL database for storing users, doctors, appointmentsAuthenticationJWT (JSON Web Token)Stateless, secure login sessionsPassword HashingbcryptjsSecurely store passwords — never saved as plain textEmail ServiceNodemailer + GmailSend password reset links to user emailStylingPlain CSSNo CSS frameworks — written from scratch for full control
+
+🤖 How the AI Works (Simple Explanation)
+There is no paid AI API used in this project. Instead, we built a custom rule-based symptom classifier.
+How it works:
+
+We created a dictionary in the backend that maps each medical specialist to a list of symptom keywords.
+
+Cardiologist  → ["chest pain", "heart", "palpitation", "high blood pressure" ...]
+Dermatologist → ["rash", "skin", "acne", "itching", "eczema" ...]
+Neurologist   → ["headache", "migraine", "seizure", "numbness" ...]
+...and so on for 10 specialists
+
+When a user types their symptoms (e.g. "I have a severe headache and dizziness"), the system checks each specialist's keyword list and counts how many keywords appear in the user's input.
+The specialist with the highest keyword match count is recommended.
+If nothing matches clearly, it defaults to General Physician.
+
+Why this approach?
+
+Free — no API costs
+Fast — runs entirely on our own server
+Easy to understand and explain
+Can be extended with more keywords anytime
+
+
+🔐 Authentication Flow
+User Registers → Password is hashed with bcryptjs → Saved in MongoDB
+User Logs In   → Password is compared → JWT Token is issued (valid 7 days)
+Every Request  → Token is sent in Authorization header → Middleware verifies it
+For Forgot Password:
+User enters email → Random reset token generated → Saved in DB with 1hr expiry
+→ Reset link emailed via Nodemailer → User clicks link → New password saved
+
+📋 Features
+✅ Authentication
+
+Signup with Name, Age, Gender, Email, Password
+Login with email and password
+Forgot Password (sends reset link to email)
+Reset Password (secure token-based)
+
+✅ Home Page
+
+Personalized welcome message
+Quick links to Book Appointment and View History
+
+✅ Appointment Booking (4-Step Flow)
+
+Step 1 — Patient describes symptoms in a text box
+Step 2 — AI recommends a specialist and shows matching doctors with their available days and time slots
+Step 3 — Patient reviews and confirms the appointment
+Step 4 — Success screen with appointment summary
+
+✅ Appointment History
+
+View all past bookings (doctor name, specialization, day, time, symptoms)
+Cancel any appointment with one click
+
+
+🗄 Database Models
+User
+name, age, gender, email, password (hashed), resetPasswordToken, resetPasswordExpires
+Doctor
+name, specialization, availableDays (array), availableSlots (array)
+Appointment
+user (ref → User), doctor (ref → Doctor), symptoms, appointmentDate, appointmentTime
+
+📡 API Endpoints
+Authentication — /api/auth
+MethodEndpointDescriptionPOST/registerCreate a new user accountPOST/loginLogin and receive JWT tokenPOST/forgot-passwordSend password reset emailPOST/reset-password/:tokenReset password using email token
+Doctors — /api/doctors
+MethodEndpointDescriptionGET/Get all doctorsGET/?specialization=CardiologistGet doctors by specialization
+AI — /api/ai
+MethodEndpointDescriptionPOST/analyzeSend symptoms, receive specialist recommendation
+Appointments — /api/appointments
+MethodEndpointDescriptionPOST/Book a new appointmentGET/Get all appointments for logged-in userDELETE/:idCancel an appointment
+
+Protected routes — All doctor, AI, and appointment routes require a valid JWT token in the request header.
+
+
+📁 Folder Structure
 doctor-app/
+│
 ├── backend/
-│   ├── config/
-│   │   └── seedDoctors.js        # Script to add sample doctors to DB
-│   ├── controllers/
-│   │   ├── authController.js     # Register, Login, Forgot/Reset Password
-│   │   ├── doctorController.js   # Get doctors
-│   │   ├── aiController.js       # Symptom → Specialist mapping
-│   │   └── appointmentController.js
-│   ├── middleware/
-│   │   └── authMiddleware.js     # JWT token verification
-│   ├── models/
+│   ├── server.js                  ← Entry point, starts the server
+│   ├── models/                    ← MongoDB data schemas
 │   │   ├── User.js
 │   │   ├── Doctor.js
 │   │   └── Appointment.js
-│   ├── routes/
+│   ├── controllers/               ← Business logic for each feature
+│   │   ├── authController.js
+│   │   ├── aiController.js
+│   │   ├── doctorController.js
+│   │   └── appointmentController.js
+│   ├── routes/                    ← URL routing
 │   │   ├── authRoutes.js
-│   │   ├── doctorRoutes.js
 │   │   ├── aiRoutes.js
+│   │   ├── doctorRoutes.js
 │   │   └── appointmentRoutes.js
-│   ├── .env.example
-│   ├── package.json
-│   └── server.js                 # Entry point
+│   ├── middleware/
+│   │   └── authMiddleware.js      ← JWT verification
+│   └── config/
+│       └── seedDoctors.js         ← Script to insert sample doctors
 │
 └── frontend/
-    ├── src/
-    │   ├── components/
-    │   │   └── Navbar.jsx
-    │   ├── pages/
-    │   │   ├── Login.jsx
-    │   │   ├── Signup.jsx
-    │   │   ├── ForgotPassword.jsx
-    │   │   ├── ResetPassword.jsx
-    │   │   ├── Home.jsx
-    │   │   ├── BookAppointment.jsx
-    │   │   └── AppointmentHistory.jsx
-    │   ├── utils/
-    │   │   └── api.js             # Axios instance
-    │   ├── App.jsx                # Routes
-    │   ├── main.jsx
-    │   └── index.css
-    ├── .env.example
-    ├── index.html
-    ├── package.json
-    └── vite.config.js
-```
+    └── src/
+        ├── pages/                 ← One file per screen
+        │   ├── Login.jsx
+        │   ├── Signup.jsx
+        │   ├── ForgotPassword.jsx
+        │   ├── ResetPassword.jsx
+        │   ├── Home.jsx
+        │   ├── BookAppointment.jsx
+        │   └── AppointmentHistory.jsx
+        ├── components/
+        │   └── Navbar.jsx
+        ├── utils/
+        │   └── api.js             ← Axios instance with token
+        ├── App.jsx                ← Routes + protected route logic
+        └── index.css              ← All styles
 
----
+▶️ How to Run This Project
+Prerequisites
 
-## ⚙️ Setup Instructions
+Node.js installed (v18+)
+A free MongoDB Atlas account
+A Gmail account (for email feature)
 
-### Step 1 — Install Node.js
-Download and install Node.js from https://nodejs.org (v18 or higher recommended).
-
----
-
-### Step 2 — Set Up MongoDB Atlas (Free Cloud Database)
-
-1. Go to https://www.mongodb.com/atlas and create a free account.
-2. Create a new **free cluster** (M0 Sandbox).
-3. Click **Connect → Connect your application**.
-4. Copy the connection string (looks like `mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/`).
-5. Go to **Network Access** → Add IP Address → Allow Access from Anywhere (`0.0.0.0/0`).
-6. Go to **Database Access** → Add a database user with username and password.
-
----
-
-### Step 3 — Set Up Backend
-
-```bash
-# Navigate to backend folder
-cd doctor-app/backend
-
-# Install dependencies
+1. Clone or extract the project
+2. Setup Backend
+bashcd backend
 npm install
-
-# Create .env file from example
 cp .env.example .env
-```
-
-Now open `.env` and fill in:
-```
-MONGO_URI=your_mongodb_atlas_connection_string/doctorapp?retryWrites=true&w=majority
-JWT_SECRET=any_random_long_string_like_mysecretkey123
-EMAIL_USER=your_gmail_address
-EMAIL_PASS=your_gmail_app_password   (see Gmail App Password below)
-PORT=5000
-CLIENT_URL=http://localhost:5173
-```
-
-#### Gmail App Password (for email reset feature)
-1. Go to your Google Account → Security
-2. Enable 2-Step Verification
-3. Search for "App Passwords"
-4. Create a new app password → Copy it into EMAIL_PASS
-
----
-
-### Step 4 — Seed Sample Doctors
-
-```bash
-# While still in the backend folder
-node config/seedDoctors.js
-```
-
-You should see: `10 doctors added successfully!`
-
----
-
-### Step 5 — Run the Backend
-
-```bash
-# In the backend folder
-npm run dev
-```
-
-You should see:
-```
-MongoDB connected successfully
-Server running on port 5000
-```
-
----
-
-### Step 6 — Set Up Frontend
-
-Open a **new terminal window**:
-
-```bash
-cd doctor-app/frontend
-
-# Install dependencies
+# Fill in .env with your MongoDB URI, JWT secret, and Gmail credentials
+node config/seedDoctors.js   # Add sample doctors to database
+npm run dev                  # Starts on http://localhost:5000
+3. Setup Frontend
+bashcd frontend
 npm install
-
-# Create .env file
 cp .env.example .env
-```
-
-The `.env` file should contain:
-```
-VITE_API_URL=http://localhost:5000/api
-```
-
----
-
-### Step 7 — Run the Frontend
-
-```bash
-npm run dev
-```
-
-Open your browser at: **http://localhost:5173**
-
----
-
-## 🧪 Testing the App
-
-1. Go to http://localhost:5173
-2. Click **Sign Up** → Register with your details
-3. Login with your email and password
-4. Click **Book Appointment**
-5. Enter symptoms like "I have chest pain and shortness of breath"
-6. AI will suggest **Cardiologist**
-7. Select a doctor, day, and time slot
-8. Confirm the booking
-9. View your appointment in **History**
-
----
-
-## 🌐 Deployment
-
-### Deploy Frontend on Vercel
-
-1. Push your code to GitHub
-2. Go to https://vercel.com and login
-3. Click **New Project** → Import your GitHub repo
-4. Set **Root Directory** to `frontend`
-5. Add Environment Variable:
-   - Key: `VITE_API_URL`
-   - Value: `https://your-backend-url.onrender.com/api`
-6. Click **Deploy**
-
-### Deploy Backend on Render (Free)
-
-1. Go to https://render.com → New → Web Service
-2. Connect your GitHub repo
-3. Set **Root Directory** to `backend`
-4. Build Command: `npm install`
-5. Start Command: `node server.js`
-6. Add all environment variables from `.env`
-7. Click **Deploy**
-
-After deployment:
-- Update `CLIENT_URL` in backend env to your Vercel frontend URL
-- Update `VITE_API_URL` in Vercel to your Render backend URL
-
----
-
-## 📡 API Reference
-
-| Method | Route | Description | Auth Required |
-|--------|-------|-------------|---------------|
-| POST | /api/auth/register | Register new user | No |
-| POST | /api/auth/login | Login | No |
-| POST | /api/auth/forgot-password | Send reset email | No |
-| POST | /api/auth/reset-password/:token | Reset password | No |
-| GET | /api/doctors | Get all doctors | Yes |
-| GET | /api/doctors?specialization=X | Filter doctors | Yes |
-| POST | /api/ai/analyze | Analyze symptoms | Yes |
-| POST | /api/appointments | Book appointment | Yes |
-| GET | /api/appointments | Get my appointments | Yes |
-| DELETE | /api/appointments/:id | Cancel appointment | Yes |
-
----
-
-## 🤖 How the AI Works
-
-The AI is a **keyword matching engine** — no external API needed!
-
-Located in `backend/controllers/aiController.js`
-
-It checks your symptom text against a dictionary of keywords for each specialist:
-- "chest pain" → **Cardiologist**
-- "rash, acne" → **Dermatologist**
-- "headache, migraine" → **Neurologist**
-- "joint pain, bone" → **Orthopedist**
-- "stomach, nausea" → **Gastroenterologist**
-- "anxiety, depression" → **Psychiatrist**
-- ...and more
-
-The specialist with the most keyword matches wins. If nothing matches, it defaults to **General Physician**.
-
----
-
-## 🛠 Tech Stack
-
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React 18 + Vite |
-| Routing | React Router DOM v6 |
-| HTTP Client | Axios |
-| Backend | Node.js + Express.js |
-| Database | MongoDB + Mongoose |
-| Auth | JWT + bcryptjs |
-| Email | Nodemailer + Gmail |
-| Styling | Plain CSS |
+# VITE_API_URL=http://localhost:5000/api
+npm run dev                  # Opens on http://localhost:5173
