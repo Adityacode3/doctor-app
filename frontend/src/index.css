@@ -1,0 +1,395 @@
+/* ─── RESET & BASE ─────────────────────────────────────────────────────────── */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f4f8;
+  color: #333;
+  min-height: 100vh;
+}
+
+/* ─── LAYOUT ────────────────────────────────────────────────────────────────── */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* ─── NAVBAR ────────────────────────────────────────────────────────────────── */
+.navbar {
+  background-color: #2563eb;
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar h1 {
+  font-size: 20px;
+}
+
+.navbar a, .navbar button {
+  color: white;
+  text-decoration: none;
+  margin-left: 15px;
+  background: none;
+  border: 1px solid white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.navbar a:hover, .navbar button:hover {
+  background-color: rgba(255,255,255,0.2);
+}
+
+/* ─── AUTH FORMS ────────────────────────────────────────────────────────────── */
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.auth-box {
+  background: white;
+  padding: 35px 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 420px;
+}
+
+.auth-box h2 {
+  margin-bottom: 20px;
+  color: #2563eb;
+  text-align: center;
+}
+
+/* ─── FORM ELEMENTS ─────────────────────────────────────────────────────────── */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #555;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #2563eb;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* ─── BUTTONS ───────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: #2563eb;
+  color: white;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-danger {
+  background-color: #dc2626;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #b91c1c;
+}
+
+.btn-secondary {
+  background-color: #6b7280;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #4b5563;
+}
+
+/* ─── MESSAGES ──────────────────────────────────────────────────────────────── */
+.error-msg {
+  background-color: #fee2e2;
+  color: #dc2626;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.success-msg {
+  background-color: #dcfce7;
+  color: #16a34a;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.info-msg {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+/* ─── CARDS ─────────────────────────────────────────────────────────────────── */
+.card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+  margin-bottom: 15px;
+}
+
+.card h3 {
+  color: #2563eb;
+  margin-bottom: 8px;
+}
+
+.card p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+/* ─── HOME PAGE ─────────────────────────────────────────────────────────────── */
+.home-container {
+  max-width: 700px;
+  margin: 60px auto;
+  text-align: center;
+  padding: 20px;
+}
+
+.home-container h2 {
+  font-size: 28px;
+  color: #2563eb;
+  margin-bottom: 10px;
+}
+
+.home-container p {
+  color: #555;
+  margin-bottom: 30px;
+  font-size: 16px;
+}
+
+.home-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.home-buttons a {
+  padding: 12px 28px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.btn-green {
+  background-color: #16a34a;
+  color: white;
+}
+
+.btn-green:hover {
+  background-color: #15803d;
+}
+
+/* ─── DOCTOR CARD ───────────────────────────────────────────────────────────── */
+.doctor-card {
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 12px;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.doctor-card:hover {
+  border-color: #2563eb;
+}
+
+.doctor-card.selected {
+  border-color: #2563eb;
+  background-color: #eff6ff;
+}
+
+.doctor-card h4 {
+  color: #1e40af;
+  margin-bottom: 5px;
+}
+
+.doctor-card p {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 3px;
+}
+
+/* ─── APPOINTMENT HISTORY ───────────────────────────────────────────────────── */
+.appointment-card {
+  background: white;
+  border-left: 4px solid #2563eb;
+  border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+
+.appointment-card h4 {
+  color: #1e40af;
+  margin-bottom: 6px;
+}
+
+.appointment-card p {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 3px;
+}
+
+/* ─── STEP INDICATOR ────────────────────────────────────────────────────────── */
+.step-indicator {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.step {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: bold;
+  background: #e5e7eb;
+  color: #6b7280;
+}
+
+.step.active {
+  background: #2563eb;
+  color: white;
+}
+
+.step.done {
+  background: #16a34a;
+  color: white;
+}
+
+/* ─── PAGE TITLE ────────────────────────────────────────────────────────────── */
+.page-title {
+  text-align: center;
+  color: #2563eb;
+  margin-bottom: 25px;
+  font-size: 24px;
+}
+
+/* ─── AUTH LINKS ────────────────────────────────────────────────────────────── */
+.auth-links {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 13px;
+}
+
+.auth-links a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.auth-links a:hover {
+  text-decoration: underline;
+}
+
+/* ─── SECTION HEADING ───────────────────────────────────────────────────────── */
+.section-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #374151;
+  margin-bottom: 12px;
+  margin-top: 20px;
+}
+
+/* ─── SLOTS ─────────────────────────────────────────────────────────────────── */
+.slots-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.slot-btn {
+  padding: 7px 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.slot-btn:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.slot-btn.selected {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+/* ─── RESPONSIVE ────────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .auth-box {
+    padding: 25px 20px;
+  }
+
+  .home-container h2 {
+    font-size: 22px;
+  }
+}
