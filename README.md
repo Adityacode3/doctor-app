@@ -96,47 +96,7 @@ MethodEndpointDescriptionPOST/Book a new appointmentGET/Get all appointments for
 Protected routes — All doctor, AI, and appointment routes require a valid JWT token in the request header.
 
 
-📁 Folder Structure
-doctor-app/
-│
-├── backend/
-│   ├── server.js                  ← Entry point, starts the server
-│   ├── models/                    ← MongoDB data schemas
-│   │   ├── User.js
-│   │   ├── Doctor.js
-│   │   └── Appointment.js
-│   ├── controllers/               ← Business logic for each feature
-│   │   ├── authController.js
-│   │   ├── aiController.js
-│   │   ├── doctorController.js
-│   │   └── appointmentController.js
-│   ├── routes/                    ← URL routing
-│   │   ├── authRoutes.js
-│   │   ├── aiRoutes.js
-│   │   ├── doctorRoutes.js
-│   │   └── appointmentRoutes.js
-│   ├── middleware/
-│   │   └── authMiddleware.js      ← JWT verification
-│   └── config/
-│       └── seedDoctors.js         ← Script to insert sample doctors
-│
-└── frontend/
-    └── src/
-        ├── pages/                 ← One file per screen
-        │   ├── Login.jsx
-        │   ├── Signup.jsx
-        │   ├── ForgotPassword.jsx
-        │   ├── ResetPassword.jsx
-        │   ├── Home.jsx
-        │   ├── BookAppointment.jsx
-        │   └── AppointmentHistory.jsx
-        ├── components/
-        │   └── Navbar.jsx
-        ├── utils/
-        │   └── api.js             ← Axios instance with token
-        ├── App.jsx                ← Routes + protected route logic
-        └── index.css              ← All styles
-
+      
 ▶️ How to Run This Project
 Prerequisites
 
